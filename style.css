@@ -1,0 +1,29 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+#map {
+  position: relative;
+  width: 100%;
+  height: 600px;
+  background-image: url('mapa.jpg'); /* Imagem do loteamento */
+  background-size: cover;
+}
+
+.dot {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.available { background-color: green; }
+.sold { background-color: red; }
+.reserved { background-color: orange; }
+
+#refresh-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+}
