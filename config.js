@@ -1,42 +1,3 @@
-const map = document.getElementById('map');
-const saveButton = document.getElementById('save-button');
-let dots = []; // Array para armazenar todas as bolinhas criadas
-
-// Criar uma bolinha arrastável
-map.addEventListener('click', (e) => {
-  const existingDot = dots.find(dot => {
-    const dotX = parseInt(dot.style.left);
-    const dotY = parseInt(dot.style.top);
-    return Math.abs(dotX - e.offsetX) < 10 && Math.abs(dotY - e.offsetY) < 10;
-  });
-
-  if (existingDot) {
-    alert('Já existe uma bolinha neste local!');
-    return;
-  }
-
-  const dot = document.createElement('div');
-  dot.classList.add('dot', 'available');
-  dot.style.left = `${e.offsetX}px`;
-  dot.style.top = `${e.offsetY}px`;
-  map.appendChild(dot);
-
-  // Permitir arrastar a bolinha
-  dot.addEventListener('mousedown', (e) => {
-    e.preventDefault();
-    const moveDot = (e) => {
-      dot.style.left = `${e.offsetX}px`;
-      dot.style.top = `${e.offsetY}px`;
-    };
-    map.addEventListener('mousemove', moveDot);
-    map.addEventListener('mouseup', () => {
-      map.removeEventListener('mousemove', moveDot);
-    }, { once: true });
-  });
-
-  dots.push(dot); // Adiciona a bolinha ao array
-});
-
 // Salvar coordenadas no Google Sheets
 saveButton.addEventListener('click', async () => {
   for (const dot of dots) {
@@ -48,16 +9,28 @@ saveButton.addEventListener('click', async () => {
       const y = parseInt(dot.style.top);
 
       // Envia para o Google Sheets
-      await fetch('https://script.google.com/macros/s/AKfycbw0ahxjPzlGSSrRx56uak3FZXIvziv8M36YFhSunMt8ZBj1s2kIYkBVOSKC1Y_dAo_w/exec', {
-        method: 'POST',
-        body: JSON.stringify({ quadra, lote, x, y }),
-        headers: { 'Content-Type': 'application/json' }
-      });
+      try {
+        const response = await fetch(scriptUrl, {
+          method: 'POST',
+          body: JSON.stringify({ quadra, lote, x, y }),
+          headers: { 'Content-Type': 'application/json' }
+        });
 
-      dot.classList.add('saved'); // Feedback visual ao salvar
+        const result = await response.json(); // Processa a resposta JSON
+
+        if (result.status === 'success') {
+          alert('Coordenadas salvas com sucesso!');
+          dot.classList.add('saved'); // Feedback visual ao salvar
+        } else {
+          alert('Erro ao salvar coordenadas: ' + result.message);
+        }
+      } catch (error) {
+        alert('Erro ao salvar coordenadas: ' + error.message);
+      }
     }
   }
 
-  alert('Todas as coordenadas salvas!');
+  dots = []; // Limpa o array após salvar
+});
   dots = []; // Limpa o array após salvar
 });
