@@ -37,7 +37,7 @@ map.addEventListener('click', (e) => {
   dots.push(dot); // Adiciona a bolinha ao array
 });
 
-// Salvar coordenadas de todas as bolinhas
+// Salvar coordenadas no Google Sheets
 saveButton.addEventListener('click', async () => {
   for (const dot of dots) {
     const quadra = prompt('Digite a quadra para a bolinha:');
@@ -47,7 +47,7 @@ saveButton.addEventListener('click', async () => {
       const x = parseInt(dot.style.left);
       const y = parseInt(dot.style.top);
 
-      // Enviar dados para o Google Sheets
+      // Envia para o Google Sheets
       await fetch('https://script.google.com/macros/s/AKfycbw0ahxjPzlGSSrRx56uak3FZXIvziv8M36YFhSunMt8ZBj1s2kIYkBVOSKC1Y_dAo_w/exec', {
         method: 'POST',
         body: JSON.stringify({ quadra, lote, x, y }),
