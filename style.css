@@ -21,8 +21,9 @@ body {
 .available { background-color: green; }
 .sold { background-color: red; }
 .reserved { background-color: orange; }
+.saved { background-color: blue; } /* Feedback visual ao salvar */
 
-#refresh-button {
+#refresh-button, #save-button {
   margin-top: 20px;
   padding: 10px 20px;
   font-size: 16px;
