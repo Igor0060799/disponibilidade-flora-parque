@@ -4,6 +4,17 @@ let dots = []; // Array para armazenar todas as bolinhas criadas
 
 // Criar uma bolinha arrastável
 map.addEventListener('click', (e) => {
+  const existingDot = dots.find(dot => {
+    const dotX = parseInt(dot.style.left);
+    const dotY = parseInt(dot.style.top);
+    return Math.abs(dotX - e.offsetX) < 10 && Math.abs(dotY - e.offsetY) < 10;
+  });
+
+  if (existingDot) {
+    alert('Já existe uma bolinha neste local!');
+    return;
+  }
+
   const dot = document.createElement('div');
   dot.classList.add('dot', 'available');
   dot.style.left = `${e.offsetX}px`;
@@ -42,6 +53,8 @@ saveButton.addEventListener('click', async () => {
         body: JSON.stringify({ quadra, lote, x, y }),
         headers: { 'Content-Type': 'application/json' }
       });
+
+      dot.classList.add('saved'); // Feedback visual ao salvar
     }
   }
 
