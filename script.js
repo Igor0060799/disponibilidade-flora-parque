@@ -5,7 +5,7 @@ const refreshButton = document.getElementById('refresh-button');
 async function fetchData() {
   const response = await fetch('https://script.google.com/macros/s/AKfycbw0ahxjPzlGSSrRx56uak3FZXIvziv8M36YFhSunMt8ZBj1s2kIYkBVOSKC1Y_dAo_w/exec');
   const data = await response.json();
-  return data.slice(1); // Ignora a primeira linha (cabeçalho)
+  return data;
 }
 
 // Função para atualizar as bolinhas no mapa
