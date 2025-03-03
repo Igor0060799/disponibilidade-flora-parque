@@ -23,7 +23,7 @@ body {
 .reserved { background-color: orange; }
 .saved { background-color: blue; } /* Feedback visual ao salvar */
 
-#refresh-button, #save-button {
+#save-button {
   margin-top: 20px;
   padding: 10px 20px;
   font-size: 16px;
